@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class IpLogsEntity {
+public class IpLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,7 +45,7 @@ public class IpLogsEntity {
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    public IpLogsEntity(Url url, String ipAddress, String userAgent, String referrer) {
+    public IpLog(Url url, String ipAddress, String userAgent, String referrer) {
         this.url = url;
         this.ipAddress = ipAddress;
         this.userAgent = userAgent;
