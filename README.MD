@@ -7,12 +7,17 @@ Simplink is a purpose-driven backend service designed to shorten URLs, manage li
 * Database: MySQL
 * Testing: H2 Database (In-memory)
 * Infrastructure & Deployment: Docker, GitHub Actions, Render
+* Project Management: Jira
 
 ## Core Features
 * URL Shortening: Converts long and complex URLs into short, unique links using a Base62 encoding utility (Base62Util).
-* Link Management & Tracking: Manages the generated short links and records the specific IP addresses from which these links are accessed.
+* Link Management & Tracking: Manages the generated short links and records the specific IP addresses from which these links are accessed, utilizing an ipConfig configuration.
 * Redirection: Instantly redirects the user to the original destination address when the short link is utilized.
 * Integration Testing: The project includes integration tests that run on a temporary H2 database to verify system components without affecting the main database.
+
+## Project Tracking
+The development process, tasks, and project updates are managed and tracked using Jira. You can view the project board here:
+[Simplink Jira Board](https://sevincquliyeva000.atlassian.net/?continue=https%3A%2F%2Fsevincquliyeva000.atlassian.net%2Fwelcome%2Fsoftware%3FprojectId%3D10001&atlOrigin=eyJpIjoiZGUwMWEyNWUyMTViNDEzOWI1NTVmMmEzMDJjYjFhYTIiLCJwIjoiamlyYS1zb2Z0d2FyZSJ9)
 
 ## Local Setup
 
