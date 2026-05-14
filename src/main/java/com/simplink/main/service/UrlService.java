@@ -38,5 +38,23 @@ public class UrlService {
     public Url findById(Long id) {
         return urlRepository.findById(id).orElseThrow(() ->new RuntimeException("url not found"));
     }
+    public Url updateUrl(Long id, String newOriginalUrl) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("ID cannot be null or less than or equal to zero!");
+        }
+        if (newOriginalUrl == null || newOriginalUrl.trim().isEmpty()) {
+            throw new IllegalArgumentException("URL cannot be empty!");
+        }
+        Url url = findById(id);
+        url.setOriginalUrl(newOriginalUrl);
+        return urlRepository.save(url);
+    }
 
+    public void deleteUrl(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("ID cannot be null or less than or equal to zero!");
+        }
+        Url url = findById(id);
+        urlRepository.delete(url);
+    }
 }
