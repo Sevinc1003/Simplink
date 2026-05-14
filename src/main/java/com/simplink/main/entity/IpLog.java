@@ -2,6 +2,7 @@ package com.simplink.main.entity;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.Column;
@@ -30,6 +31,7 @@ public class IpLog {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "url_id", nullable = false)
+    @JsonIgnore
     private Url url;
 
     @Column(nullable = false, length = 45)
