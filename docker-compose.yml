@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: simplink-db
+    environment:
+      MYSQL_DATABASE: simplink
+      MYSQL_ROOT_PASSWORD: secret
+    ports:
+      - "3307:3306"
+    volumes:
+      - devops-db-data:/var/lib/mysql
+    networks:
+      - devops-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  app:
+    build: .
+    container_name: simplink
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      DB_URL: jdbc:mysql://db:3306/simplink?useSSL=false&allowPublicKeyRetrieval=true
+      DB_USERNAME: root
+      DB_PASSWORD: secret
+      DDL_AUTO: update
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - devops-network
+
+networks:
+  simplink-network:
+    driver: bridge
+
+volumes:
+  simplink-db-data:
