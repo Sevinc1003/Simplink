@@ -38,11 +38,11 @@ public class UrlController {
     }
 
     @GetMapping("/{shortCode}")
-    public ResponseEntity<Void> redirectToOriginal(@PathVariable String shortCode) {
-        String originalUrl = urlService.getOriginalUrl(shortCode);
-
+    public ResponseEntity<Void> redirectToOriginal(@PathVariable String shortCode,HttpServletRequest request) {
+        Url originalUrl = urlService.getUrlEntityByShortCode(shortCode);
+        ipLogService.logClickContext(originalUrl, request);
         return ResponseEntity.status(HttpStatus.FOUND)
-                .location(URI.create(originalUrl))
+                .location(URI.create(originalUrl.getOriginalUrl()))
                 .build();
     }
 }
