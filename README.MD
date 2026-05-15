@@ -14,27 +14,24 @@ Live Demo: https://simplink-1ckl.onrender.com/
 * Project Management: Jira
 
 ## Core Features
-* URL Shortening: Converts long and complex URLs into short, unique links using a Base62 encoding utility (Base62Util).
+* URL Shortening: Base62 encoding is used to generate compact, unique short codes for URLs.
 * Link Management & Tracking: Manages the generated short links and records the specific IP addresses from which these links are accessed, utilizing an ipConfig configuration.
 * Redirection: Instantly redirects the user to the original destination address when the short link is utilized.
 * Integration Testing: The project includes integration tests that run on a temporary H2 database to verify system components without affecting the main database.
 
 ## API Endpoints
 
-Below is the list of available REST API endpoints and their functionalities:
+[Click here to see.](./docs/API%20Documentation.md)
 
-| HTTP Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| **POST** | `/urls` | Accepts an original URL in the request body and returns the generated short URL. |
-| **GET** | `/{shortCode}` | Redirects the user to the original URL associated with the short code and logs the click/IP data. |
-| **GET** | `/urls/{shortCode}/ip-logs` | Retrieves the list of IP addresses and click logs for a specific short code. |
-| **GET** | `/urls/{shortCode}/clicks` | Retrieves the total number of times a specific short link has been clicked. |
-| **PUT** | `/api/urls/{id}` | Updates the original URL for a specific database ID. Returns the updated URL details. |
-| **DELETE** | `/api/urls/{id}` | Deletes the URL record and its associated data from the database using its ID. |
+## Integration Testing
+
+[Click here to see.](./docs/Tests%20Documentation.md)
+
 
 ## Project Tracking
-The development process, tasks, and project updates are managed and tracked using Jira. You can view the project board here:
-[Simplink Jira Board](https://sevincquliyeva000.atlassian.net/?continue=https%3A%2F%2Fsevincquliyeva000.atlassian.net%2Fwelcome%2Fsoftware%3FprojectId%3D10001&atlOrigin=eyJpIjoiZGUwMWEyNWUyMTViNDEzOWI1NTVmMmEzMDJjYjFhYTIiLCJwIjoiamlyYS1zb2Z0d2FyZSJ9)
+The development process, tasks, and project updates are managed and tracked using Jira. You can view the project board [Simplink Jira Board](https://sevincquliyeva000.atlassian.net/?continue=https%3A%2F%2Fsevincquliyeva000.atlassian.net%2Fwelcome%2Fsoftware%3FprojectId%3D10001&atlOrigin=eyJpIjoiZGUwMWEyNWUyMTViNDEzOWI1NTVmMmEzMDJjYjFhYTIiLCJwIjoiamlyYS1zb2Z0d2FyZSJ9):
+
+
 
 ## Local Setup
 
