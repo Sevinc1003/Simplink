@@ -90,19 +90,29 @@ public class UrlController {
 
     @PutMapping("/api/urls/{id}")
     public ResponseEntity<?> updateUrl(
-            @PathVariable Long id, @RequestBody UrlRequest request, @RequestHeader("User-Id") Long userId) {
+            @PathVariable Long id,
+            @RequestBody UrlRequest request,
+            Authentication authentication
+    ) {
         try {
-            UrlResponse response = urlService.updateUrl(id, request.getUrl(), userId);
+            String userEmail = authentication.getName();
+            UrlResponse response =
+                    urlService.updateUrl(
+                            id,
+                            request.getUrl(),
+                            userEmail
+                    );
+
             return ResponseEntity.ok(response);
 
         } catch (IllegalArgumentException e) {
+
             return ResponseEntity.badRequest().body(e.getMessage());
 
         } catch (RuntimeException e) {
-            if (e.getMessage().contains("permission")) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
-            }
-            return ResponseEntity.notFound().build();
+
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body(e.getMessage());
         }
     }
 
