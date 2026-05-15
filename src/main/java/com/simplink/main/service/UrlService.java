@@ -62,17 +62,25 @@ public class UrlService {
         return urlRepository.findById(id).orElseThrow(() ->new RuntimeException("url not found"));
     }
 
-    public UrlResponse updateUrl(Long id, String newOriginalUrl) {
+    public UrlResponse updateUrl(Long id, String newOriginalUrl,Long userId) {
 
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("ID cannot be null or less than or equal to zero!");
         }
+
         if (newOriginalUrl == null || newOriginalUrl.trim().isEmpty()) {
             throw new IllegalArgumentException("URL cannot be empty!");
         }
 
+        User user=userRepository.findById(userId).orElseThrow(() ->new RuntimeException("User not found"));
+
         Url url = findById(id);
         url.setOriginalUrl(newOriginalUrl);
+
+        if (!url.getUser().getId().equals(user.getId())) {
+            throw new RuntimeException("You do not have permission to update this URL!");
+        }
+
         Url updatedUrl = urlRepository.save(url);
 
         String shortCode = base62Util.encode(updatedUrl.getId());
