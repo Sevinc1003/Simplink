@@ -89,38 +89,15 @@ public class UrlController {
     }
 
     @PutMapping("/api/urls/{id}")
-    public ResponseEntity<?> updateUrl(
-            @PathVariable Long id,
-            @RequestBody UrlRequest request,
-            Authentication authentication
-    ) {
+    public ResponseEntity<?> updateUrl(@PathVariable Long id, @RequestBody UrlRequest request) {
         try {
-
-            String userEmail = authentication.getName();
-
-            Url updatedUrl = urlService.updateUrl(
-                            id,
-                            request.getUrl(),
-                            userEmail
-                    );
-
-            String shortCode = base62Util.encode(updatedUrl.getId());
-
-            UrlResponse response = new UrlResponse(
-                    updatedUrl.getId(),
-                    updatedUrl.getOriginalUrl(),
-                    shortCode,
-                    "N/A"
-            );
-
+            UrlResponse response = urlService.updateUrl(id, request.getUrl());
             return ResponseEntity.ok(response);
 
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
-
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body(e.getMessage());
+            return ResponseEntity.notFound().build();
         }
     }
 
