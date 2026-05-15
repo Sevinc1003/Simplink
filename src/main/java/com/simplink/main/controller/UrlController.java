@@ -95,30 +95,22 @@ public class UrlController {
             Authentication authentication
     ) {
         try {
-
             String userEmail = authentication.getName();
-
-            Url updatedUrl = urlService.updateUrl(
+            UrlResponse response =
+                    urlService.updateUrl(
                             id,
                             request.getUrl(),
                             userEmail
                     );
 
-            String shortCode = base62Util.encode(updatedUrl.getId());
-
-            UrlResponse response = new UrlResponse(
-                    updatedUrl.getId(),
-                    updatedUrl.getOriginalUrl(),
-                    shortCode,
-                    "N/A"
-            );
-
             return ResponseEntity.ok(response);
 
         } catch (IllegalArgumentException e) {
+
             return ResponseEntity.badRequest().body(e.getMessage());
 
         } catch (RuntimeException e) {
+
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body(e.getMessage());
         }

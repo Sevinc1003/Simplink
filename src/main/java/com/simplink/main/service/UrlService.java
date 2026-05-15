@@ -1,5 +1,6 @@
 package com.simplink.main.service;
 
+import com.simplink.main.dto.UrlResponse;
 import com.simplink.main.entity.IpLog;
 import com.simplink.main.entity.Url;
 import com.simplink.main.entity.User;
@@ -61,20 +62,31 @@ public class UrlService {
         return urlRepository.findById(id).orElseThrow(() ->new RuntimeException("url not found"));
     }
 
-    public Url updateUrl(Long id, String newOriginalUrl,String userEmail) {
+    public UrlResponse updateUrl(Long id, String newOriginalUrl, String userEmail) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("ID cannot be null or less than or equal to zero!");
         }
         if (newOriginalUrl == null || newOriginalUrl.trim().isEmpty()) {
             throw new IllegalArgumentException("URL cannot be empty!");
         }
+
         User currentUser = getCurrentUser(userEmail);
         Url url = findById(id);
         if (!url.getUser().getId().equals(currentUser.getId())) {
             throw new RuntimeException("You are not allowed to update this URL");
         }
         url.setOriginalUrl(newOriginalUrl);
-        return urlRepository.save(url);
+
+        Url updatedUrl = urlRepository.save(url);
+
+        String shortCode = base62Util.encode(updatedUrl.getId());
+
+        return new UrlResponse(
+                updatedUrl.getId(),
+                updatedUrl.getOriginalUrl(),
+                shortCode,
+                "N/A"
+        );
     }
 
     public void deleteUrl(Long id, String userEmail) {
